@@ -1,7 +1,24 @@
 
+# ----------------------------------------------------------------------------
+# "THE BEER-WARE LICENSE" (Revision 42):
+# <fakufaku@gmail.com> wrote this file. As long as you retain this notice you
+# can do whatever you want with this stuff. If we meet some day, and you think
+# this stuff is worth it, you can buy me a beer in return Poul-Henning Kamp
+# ----------------------------------------------------------------------------
+
+# 2012-09-11 v0.1 Robin Scheibler
+
 import urllib
 import re
 import sys
+
+def print_help():
+  print 'Usage: ' + sys.argv[0] + ' [OPTION]'
+  print 'Options:'
+  print '   -w <num> : images width'
+  print '   -o <fil> : output file'
+  print '   -c <col> : number of columns'
+  print '   -h       : print this message'
 
 # create regexp for the lines we are looking for
 # example of line to match : 
@@ -16,6 +33,22 @@ ncol = 5
 
 # output file name
 out_name = 'index.html'
+
+# parse arguments
+p = 1
+while (p < len(sys.argv)):
+  if (sys.argv[p] == '-w'):
+    width = int(sys.argv[p+1])
+    p += 2
+  elif (sys.argv[p] == '-o'):
+    out_name = sys.argv[p+1]
+    p += 2
+  elif (sys.argv[p] == '-c'):
+    ncol = int(sys.argv[p+1])
+    p += 2
+  else:
+    print_help()
+    sys.exit(1)
 
 # Get a file-like object for the Python Web site's home page.
 f = urllib.urlopen("http://phd.epfl.ch/page-19717-en.html")
@@ -41,7 +74,10 @@ f = open(out_name, 'w')
 f.write('<html><head><title>Faces</title></head>\n')
 f.write('<body><center>\n')
 
+f.write('<h1>Here are the ' + str(len(students)) + ' faces of <a href="http://phd.epfl.ch/page-19717-en.html">EDIC</a>.</h1>\n')
+
 # start a table
+f.write('<p>\n')
 f.write('<table>\n')
 
 # start a row counter to keep track of when to break lines
@@ -76,6 +112,11 @@ while (sc % ncol != 0):
 
 # end table
 f.write('</table>\n')
+
+f.write('<p> This page was generated using <a href="https://github.com/fakufaku/EDICFaces">EDICFaces</a>. 2012 (c) \n')
+f.write('    <a href="http://fakufaku.github.com">Robin</a> <a href="http://people.epfl.ch/robin.scheibler">Scheibler</a>, \n')
+f.write('    <a href=http://en.wikipedia.org/wiki/Beerware>Beerware License</a>.<br>\n')
+
 
 # end html file
 f.write('</body></html>\n')
