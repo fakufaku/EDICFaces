@@ -92,7 +92,9 @@ for s in students:
   # write student's face and name
   f.write('<td>\n')
   f.write('<center>\n')
-  f.write('<img src="http://people.epfl.ch/cgi-bin/people/getPhoto?id=' + s['id'] + '&show=" width=' + str(width) + '><br>\n')
+  f.write('<a href="http://people.epfl.ch/' + s['id'] + '">\n')
+  f.write('  <img src="http://people.epfl.ch/cgi-bin/people/getPhoto?id=' + s['id'] + '&show=" width=' + str(width) + '><br>\n')
+  f.write('</a>\n')
   f.write('<b>' + s['name'] + '</b>\n')
   f.write('</center>\n')
 
