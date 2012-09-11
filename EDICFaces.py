@@ -12,7 +12,7 @@ exp = re.compile('^\s*<td class="tdpeople" valign="top"><a href="http://people.e
 width = 100
 
 # number of columns to display pictures
-ncol = 3
+ncol = 5
 
 # output file name
 out_name = 'index.html'
