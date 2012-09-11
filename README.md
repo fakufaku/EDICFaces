@@ -4,9 +4,8 @@ A simple python script that pulls the names of the PhD students at EDIC in EPFL 
 
 This is a help for people at EDIC who are not good with names.
 
-License: BeerWare
+The resulting page : [EDIC Faces](http://fakufaku.github.com/EDICFaces/)
 
-To run it type
-'''
+To run the script type :
+
 > python ./EDICFaces.py
-'''
