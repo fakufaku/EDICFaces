@@ -3,6 +3,14 @@ import urllib
 import re
 import sys
 
+def print_help():
+  print 'Usage: ' + sys.argv[0] + ' [OPTION]'
+  print 'Options:'
+  print '   -w <num> : images width'
+  print '   -o <fil> : output file'
+  print '   -c <col> : number of columns'
+  print '   -h       : print this message'
+
 # create regexp for the lines we are looking for
 # example of line to match : 
 # <td class="tdpeople" valign="top"><a href="http://people.epfl.ch/runwei.zhang">Zhang&nbsp;Runwei</a></td>
@@ -16,6 +24,22 @@ ncol = 5
 
 # output file name
 out_name = 'index.html'
+
+# parse arguments
+p = 1
+while (p < len(sys.argv)):
+  if (sys.argv[p] == '-w'):
+    width = int(sys.argv[p+1])
+    p += 2
+  elif (sys.argv[p] == '-o'):
+    out_name = sys.argv[p+1]
+    p += 2
+  elif (sys.argv[p] == '-c'):
+    ncol = int(sys.argv[p+1])
+    p += 2
+  else:
+    print_help()
+    sys.exit(1)
 
 # Get a file-like object for the Python Web site's home page.
 f = urllib.urlopen("http://phd.epfl.ch/page-19717-en.html")
