@@ -23,7 +23,15 @@ def print_help():
 # create regexp for the lines we are looking for
 # example of line to match : 
 # <td class="tdpeople" valign="top"><a href="http://people.epfl.ch/runwei.zhang">Zhang&nbsp;Runwei</a></td>
-exp = re.compile('^\s*<td class="tdpeople" valign="top"><a href="http://people.epfl.ch/(?P<id>.*)">(?P<name>.*)</a></td>')
+#exp = re.compile('^\s*<td class="tdpeople" valign="top"><a href="http://people.epfl.ch/(?P<id>.*)">(?P<name>.*)</a></td>')
+
+# using the people.epfl.ch search function
+# example to match :
+#   href="http://people.epfl.ch/andrew.becker?lang=en"
+exp_id = re.compile('^\s*href="http://people.epfl.ch/(?P<id>.*)\?lang=en"')
+# example to match name
+#   title="Personal webpage">Becker, Carlos Joaquin </a>
+exp_name = re.compile('^\s*title="Personal webpage">(?P<name>.*)\s</a>')
 
 # height of pictures in the page
 width = 100
@@ -51,18 +59,22 @@ while (p < len(sys.argv)):
     sys.exit(1)
 
 # Get a file-like object for the Python Web site's home page.
-f = urllib.urlopen("http://phd.epfl.ch/page-19717-en.html")
+#f = urllib.urlopen("http://phd.epfl.ch/page-19717-en.html")
+f = urllib.urlopen("http://search.epfl.ch/ubrowse.action?acro=EDIC&request_locale=en")
 
 # create an array of students
 students = []
 
 # Read and parse line by line
 lines = f.readlines()
-for l in lines:
-  m = exp.match(l)
-  # if match occurs, store name and id in array
-  if m:
-    students.append({'name' : m.group("name"), 'id' : m.group("id")})
+for i in range(len(lines)):
+  m_id = exp_id.match(lines[i])
+  # if match occurs, try to match the name
+  if m_id:
+    m_name = exp_name.match(lines[i+1])
+    # if name matches too, then append to array
+    if m_name:
+      students.append({'name' : m_name.group("name"), 'id' : m_id.group("id")})
 
 # close pseudo file
 f.close()
